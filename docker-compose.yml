@@ -1,5 +1,20 @@
 version: '3.8'
 services:
+  main-app:
+    build: .
+    image: main-app
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@localhost:5434/nest?schema=public
+      - JWT_SECRET=yBdE7NETvvGhrRPkT84x2fbCMevdknNX2af5AnCwFVgY858ry7u5fMM9ssQ9yMaCVfwHgjHnrvsSJCVKFDVv6v5UXGNBYBdPNehYNAUKAYmDLtuz5P4CAackjHVFugTx
+    ports:
+      - 3000:3000
+    depends_on:
+      - dev-db
+    volumes:
+      - .:/usr/src/main-app
+    networks:
+      - nest-api
+
   dev-db:
     image: postgres:13
     ports:
@@ -8,7 +23,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: nest
+    volumes:
+      - dbdata:/data/db
     networks:
       - nest-api
+
+volumes:
+  dbdata:
+
 networks:
   nest-api:
+  node-network:
+    driver: bridge  
