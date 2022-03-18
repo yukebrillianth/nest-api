@@ -9,7 +9,7 @@ COPY . /home/node
 RUN npm ci \
     && npm run build \
     && npm prune --production \
-    && prisma:migrate:deploy
+    && npm prisma:migrate:deploy
 
 # ---
 
